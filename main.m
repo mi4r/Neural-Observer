@@ -67,7 +67,13 @@ for x1_grid = -gamma:grid_step:gamma
     end
 end
 global nn;
+global net;
 nn = newgrnn(learning_src, learning_ans, 0.01);
+net = newff(minmax(learning_src'), [7,7,1], {'logsig', 'logsig', 'poslin'}, 'trainlm');
+net.performFcn = 'sse';
+net.trainParam.goal = 0.5;
+net.trainParam.epochs = 10000;
+[net,tr]=train(net, learning_src', learning_ans');
 res = sim(nn,[1 5 7 8]');
 global gl_eps;
 gl_eps = 0.4;
