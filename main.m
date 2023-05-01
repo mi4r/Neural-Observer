@@ -12,10 +12,9 @@ m = 2;
 tau = 5;
 gamma = 2;
 grid_step = 0.1;
-global eps;
 global k;
 k = 0;
-eps = 0.01;
+eps = 0.1;
 grid_count = (gamma/grid_step * 2 - 1) ^ 2;
 
 %Lambda11 = [0 1 0; 0 0 1; -1 -3 -3];
@@ -29,14 +28,14 @@ grid_count = (gamma/grid_step * 2 - 1) ^ 2;
 %c22 = [-6572/76 897/76 635/76];
 
 Lambda(:,:,1,1) = [0 1 0; 0 0 1; -1 -3 -3];
-Lambda(:,:,1,2) = [0 1 0; 0 0 1; -9600/76 6912/76 -1319/76];
+Lambda(:,:,1,2) = [0 1 0; 0 0 1; -110 113 -29];
 Lambda(:,:,2,1) = [0 1 0; 0 0 1; -3740/15 803/15 23/15];
-Lambda(:,:,2,2) = [0 1 0; 0 0 1; -1 -3 -3];
+Lambda(:,:,2,2) = [0 1 0; 0 0 1; -24 -26 -9];
 
 c(:,1,1) = [-655/15 372/15 -44/15]';
-c(:,1,2) = [8215/76 -6461/76 1270/76]';
+c(:,1,2) = [90 -106 28]';
 c(:,2,1) = [524/15 43/15 -22/15]';
-c(:,2,2) = [-6572/76 897/76 635/76]';
+c(:,2,2) = [-72 38 14]';
 
 learning_src = zeros(2*n, grid_count*m*m);
 learning_ans = zeros(1, grid_count*m*m);
@@ -70,7 +69,8 @@ end
 global nn;
 nn = newgrnn(learning_src, learning_ans, 0.01);
 res = sim(nn,[1 5 7 8]');
-eps = 0.04;
+global gl_eps;
+gl_eps = 0.4;
 global last_res;
 last_res = 1;
 
